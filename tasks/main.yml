@@ -1,6 +1,16 @@
 ---
 # tasks file for ansible-users
 
+- name: ansible-users | loop over users_group_list for local users
+  include: local-groups.yml
+  when:
+    - users_group_list2 is defined
+
+- name: ansible-users | loop over users_user_list for local users
+  include: local-users.yml
+  when:
+    - users_user_list2 is defined
+
 - name: ansible-users | loop over systemusers_user_list
   include: system-users.yml
   loop: "{{ systemusers_user_list }}"

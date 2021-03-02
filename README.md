@@ -15,7 +15,10 @@ Run `./configure` in order to download the role dependency. Also of course insta
 Role Variables
 --------------
 
-Exactly the same as [robertdebock.users](https://galaxy.ansible.com/robertdebock/users): this role is totally dumb.
+Exactly the same as [robertdebock.users](https://galaxy.ansible.com/robertdebock/users): this role is forwarding the instruction.
+However, to avoid conflicts, the lists has been renamed:
+`users_user_list2` and `users_group_list2`
+
 In addition to that roles variables, we have added the notion of system users, ex:
 
 ```yaml

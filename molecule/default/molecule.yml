@@ -15,6 +15,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: yes
     pre_build_image: yes
+
 provisioner:
   name: ansible
   env:
