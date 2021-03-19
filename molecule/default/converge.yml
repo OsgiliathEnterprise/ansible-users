@@ -2,11 +2,11 @@
 - name: Converge
   hosts: all
   vars:
-    users_group_list2:
+    local_users_group_list:
       - name: cmordante
       - name: shouldnotbeaddegroup
         freeipa: yes
-    users_user_list2:
+    local_users_user_list:
       - name: cmordant
         group: cmordante
         groups: wheel
@@ -42,7 +42,7 @@
             d08efWDX/kGeeFLyUxjCs6bo50BzsDnWVzxEO9Dk2f2YLi0qYyUglD9KOwzU2Q9Mixhy
             jnXTet478HjHlm729oJzWjaDTy2B2RQ//74ebYY9WRELvU1SQsFwPJNeOuipYrYS2B0Y
             MkzbTOvJ4nF1NPcwgjp1AVXm64zFUsogxt6wtiuX1eL6HCQ== toto@toto.com
-    systemusers_user_list:
+    local_systemusers_user_list:
       - name: systemuser
         group: cmordante
         groups: wheel

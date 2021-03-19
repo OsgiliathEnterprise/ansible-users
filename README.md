@@ -17,12 +17,12 @@ Role Variables
 
 Exactly the same as [robertdebock.users](https://galaxy.ansible.com/robertdebock/users): this role is forwarding the instruction.
 However, to avoid conflicts, the lists has been renamed:
-`users_user_list2` and `users_group_list2`
+`local_users_user_list` and `local_users_group_list`
 
 In addition to that roles variables, we have added the notion of system users, ex:
 
 ```yaml
-    systemusers_user_list:
+    local_systemusers_user_list:
       - name: systemuser
         group: cmordante
         groups: wheel
@@ -30,6 +30,25 @@ In addition to that roles variables, we have added the notion of system users, e
         home: "/system" # defaults to "/" 
 ```
 
+Also, this role manages the FreeIPA roles
+```yaml
+    company_domain: "osgiliath.test" # That server's hostname will be  ipa."{{ company_domain }}"
+    company_realm_password: '123ADMin'
+    company_ad_password: '123ADmPass'
+    ipa_users_group_list:
+      - name: cmordante
+      - name: wheel
+    ipa_users_user_list:
+      - name: cmordant
+        first: Charlie
+        last: Mordant
+        pwd: "123123123"
+        update_password: on_create
+        passwordexpiration: "2023-01-19 23:59:59" # Optional
+        group: cmordante
+        groups: wheel
+
+```
 Dependencies
 ------------
 
