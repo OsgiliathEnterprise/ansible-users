@@ -90,8 +90,8 @@ jobs:
 
       - name: Install molecule
         run: |
-          pip3 install wheel setuptools-rust docker
-          pip3 install ansible-lint pyopenssl molecule molecule-docker pytest-testinfra yamllint ansible flake8 jmespath
+          pip3 install wheel setuptools-rust netaddr
+          pip3 install pyopenssl yamllint pytest-testinfra flake8 ansible ansible-lint molecule molecule-docker jmespath
           pip3 install -U PyYAML
       - name: execute molecule
         run: |
