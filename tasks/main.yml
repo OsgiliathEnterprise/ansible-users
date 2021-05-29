@@ -1,6 +1,10 @@
 ---
 # tasks file for ansible-users
 
+- name: ansible-users | prerequisites
+  ansible.builtin.import_tasks: deps.yml
+  when: standalone_role
+
 - name: ansible-users | loop over users_group_list for local users
   include: local-groups.yml
   when:
@@ -21,11 +25,20 @@
     - local_systemusers_user_list is defined
 
 - name: ansible-users | include secure host group if needed
-  include_role:
+  import_role:
     name: tcharl.ansible_securehost
   when:
+    - standalone_role
     - ipa_users_user_list is defined or ipa_users_group_list is defined
     - idm_group | default("") | string in group_names
+
+- name: ansible-users |  reboot ipa
+  ansible.builtin.service:
+    name: ipa
+    state: restarted
+  failed_when: false
+  changed_when: false
+  become: true
 
 - name: ansible-users | loop over ipa_users_group_list
   include: ipa-groups.yml

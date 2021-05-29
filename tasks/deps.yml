@@ -1,0 +1,10 @@
+---
+- name: ansible-users | deps | import core_dependencies role
+  import_role:
+    name: robertdebock.core_dependencies
+  become: True
+
+- name: ansible-users | deps | import bootstrap role
+  import_role:
+    name: robertdebock.bootstrap
+  become: True

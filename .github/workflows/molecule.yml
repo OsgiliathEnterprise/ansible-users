@@ -43,7 +43,7 @@ jobs:
       - name: pip install packages
         run: |
           pip3 install wheel setuptools-rust netaddr
-          pip3 install pyopenssl python-vagrant yamllint testinfra flake8 ansible ansible-lint molecule molecule-lint molecule-docker
+          pip3 install pyopenssl yamllint pytest-testinfra flake8 ansible ansible-lint molecule molecule-lint molecule-docker jmespath
           pip3 install -U PyYAML
 #      - name: Test KVM conditions fails
 #        run: |
@@ -91,8 +91,7 @@ jobs:
       - name: Install molecule
         run: |
           pip3 install wheel setuptools-rust docker
-          pip3 install molecule molecule-docker testinfra yamllint ansible-lint flake8
-
+          pip3 install pyopenssl molecule molecule-docker pytest-testinfra yamllint ansible ansible-lint flake8 jmespath
       - name: execute molecule
         run: |
           molecule test
