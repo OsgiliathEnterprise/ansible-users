@@ -87,7 +87,7 @@ jobs:
       - name: Install molecule
         run: |
           pip3 install wheel setuptools-rust netaddr testresources
-          pip3 install pyopenssl netaddr ansible<2.10 yamllint pytest-testinfra flake8 ansible-lint molecule molecule-docker jmespath
+          pip3 install pyopenssl netaddr 'ansible<2.10' yamllint pytest-testinfra flake8 ansible-lint molecule molecule-docker jmespath
           pip3 install -U PyYAML
       - name: execute molecule
         run: |
