@@ -4,9 +4,13 @@
     name: robertdebock.core_dependencies
   vars:
     ansible_become: true
+    ansible_become_user: root
+    ansible_become_method: sudo
 
 - name: ansible-users | deps | import bootstrap role
   ansible.builtin.include_role:
     name: robertdebock.bootstrap
   vars:
     ansible_become: true
+    ansible_become_user: root
+    ansible_become_method: sudo
