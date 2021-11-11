@@ -18,8 +18,5 @@
         group: cmordante
         groups:
          - wheel
-
-  tasks:
-    - name: "Include Ansible users"
-      include_role:
-        name: "ansible-users"
+  roles:
+    - role: tcharl.ansible_users

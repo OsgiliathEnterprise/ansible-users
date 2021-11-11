@@ -5,7 +5,7 @@
     ipaadmin_password: "{{ company_realm_password }}"
     name: "{{ user.name | default('Technical account') }}"
     first: "{{ user.first | default('technical') }}"
-    last: "{{ user.last | default('account')}}"
+    last: "{{ user.last | default('account') }}"
     passwordexpiration: "{{ user.passwordexpiration | default(omit) }}"
     password: "{{ user.pwd }}"
     update_password: "{{ user.password_policy | default('on_create') }}"
