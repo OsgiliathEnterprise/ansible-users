@@ -1,7 +1,7 @@
 ---
 
 - name: ansible-users | system-users | manage systemusers {{ user.name }}
-  user:
+  ansible.builtin.user:
     name: "{{ user.name }}"
     state: "{{ user.state | default('present') }}"
     create_home: "{{ user.create_home | default(system_user_default_create_home) }}"

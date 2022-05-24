@@ -17,6 +17,6 @@
         passwordexpiration: "2023-01-19 23:59:59"
         group: cmordante
         groups:
-         - wheel
+          - wheel
   roles:
     - role: tcharl.ansible_users

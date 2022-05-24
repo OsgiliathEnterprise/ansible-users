@@ -6,17 +6,17 @@
   when: standalone_role
 
 - name: ansible-users | loop over users_group_list for local users
-  include: local-groups.yml
+  ansible.builtin.include_tasks: local-groups.yml
   when:
     - local_users_group_list is defined
 
 - name: ansible-users | loop over users_user_list for local users
-  include: local-users.yml
+  ansible.builtin.include_tasks: local-users.yml
   when:
     - local_users_user_list is defined
 
 - name: ansible-users | loop over systemusers_user_list
-  include: system-users.yml
+  ansible.builtin.include_tasks: system-users.yml
   loop: "{{ local_systemusers_user_list }}"
   loop_control:
     label: "{{ user.name }}"
@@ -25,7 +25,7 @@
     - local_systemusers_user_list is defined
 
 - name: ansible-users | include secure host group if needed
-  import_role:
+  ansible.builtin.import_role:
     name: tcharl.ansible_securehost
   when:
     - standalone_role
@@ -41,7 +41,7 @@
   become: true
 
 - name: ansible-users | loop over ipa_users_group_list
-  include: ipa-groups.yml
+  ansible.builtin.include_tasks: ipa-groups.yml
   loop: "{{ ipa_users_group_list }}"
   loop_control:
     label: "{{ group.name }}"
@@ -51,7 +51,7 @@
     - ipa_users_group_list is defined
 
 - name: ansible-users | loop over ipa_users_user_list
-  include: ipa-users.yml
+  ansible.builtin.include_tasks: ipa-users.yml
   loop: "{{ ipa_users_user_list }}"
   loop_control:
     label: "{{ user.name }}"

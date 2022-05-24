@@ -11,7 +11,7 @@
     update_password: "{{ user.password_policy | default('on_create') }}"
 
 - name: ansible-users | ipa-users | manage ipa-groups
-  include: ipa-user-groups.yml
-  loop: "{{ user.groups | default([]) }}"
+  ansible.builtin.include_tasks: ipa-user-groups.yml
+  loop: "{{ user.groups + [ user.group ] | default([]) }}"
   loop_control:
     loop_var: group
