@@ -91,7 +91,7 @@ jobs:
           pip3 install ansible-compat==0.5.0
           pip3 install pyopenssl yamllint pytest-testinfra flake8 ansible-lint molecule molecule-docker jmespath
           pip3 install -U PyYAML
-          mv ansible-users tcharl.ansible_users
       - name: execute molecule
         run: |
+          mv ansible-users tcharl.ansible_users
           molecule test
