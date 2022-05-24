@@ -95,3 +95,4 @@ jobs:
         run: |
           mv ../ansible-users ../tcharl.ansible_users
           molecule test
+          mv ../tcharl.ansible_users ../ansible-users
