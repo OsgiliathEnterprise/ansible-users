@@ -93,5 +93,5 @@ jobs:
           pip3 install -U PyYAML
       - name: execute molecule
         run: |
-          mv ansible-users tcharl.ansible_users
+          mv ../ansible-users ../tcharl.ansible_users
           molecule test
