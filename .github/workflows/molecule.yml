@@ -13,7 +13,17 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  requirements:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: install prereq
+        run: |
+          ansible-galaxy role install -r requirements-standalone.yml
+          ansible-galaxy collection install -r requirements-collections.yml
   lint:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -25,74 +35,68 @@ jobs:
 
       - name: add vagrant apt key
         run: |
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
       - name: add vagrant apt repository
         run: |
-          echo \
-            "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-            $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
       - name: update apt
         run: |
           sudo apt update
 #      - name: apt upgrade
 #        run: |
 #          sudo apt upgrade
-      - name: install molecule apt prerequisite
+      - name: install libvirt apt prerequisite
         run: |
-          sudo apt -y install bridge-utils dnsmasq-base ebtables ca-certificates curl gcc iproute2 sudo rustc python3 python3-pip python3-setuptools docker-ce docker-ce-cli containerd.io
+          sudo apt -y install sudo python3 python3-pip
       - name: pip install packages
         run: |
-          pip3 install wheel setuptools-rust netaddr
-          pip3 install ansible-compat==0.5.0
-          pip3 install pyopenssl yamllint pytest-testinfra flake8 ansible ansible-lint molecule molecule-docker jmespath
-          pip3 install -U PyYAML
+          pip3 install wheel setuptools tox
 #      - name: Test KVM conditions fails
 #        run: |
 #          sudo kvm-ok
-      - name: molecule lint
+      - name: tox lint
         run: |
-          molecule lint
-
-  requirements:
+          tox -e lint
+  test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: install prereq
+      - name: add vagrant apt key
         run: |
-          ansible-galaxy role install -r requirements.yml
-
-  molecule:
-    runs-on: ubuntu-latest
-      # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - uses: actions/checkout@v2
-      - name: add docker apt key
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+      - name: add vagrant apt repository
         run: |
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-      - name: add docker apt repository
-        run: |
-          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+          sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
       - name: update apt
         run: |
           sudo apt update
 #      - name: apt upgrade
 #        run: |
 #          sudo apt upgrade
-
-      - name: install tests prerequisite
+      - name: install libvirt apt prerequisite
         run: |
-          sudo apt -y install bridge-utils dnsmasq-base ebtables ca-certificates curl gcc iproute2 sudo rustc python3 python3-pip python3-setuptools docker-ce docker-ce-cli containerd.io
-      - name: Install molecule
+          sudo apt -y install bridge-utils dnsmasq-base ebtables libvirt-dev qemu-kvm libvirt-daemon-system libvirt-daemon libvirt-clients qemu-utils ruby-dev ca-certificates curl gcc iproute2 sudo vagrant python3 python3-pip cpu-checker
+      - name: start libvirtd
         run: |
-          pip3 install wheel setuptools-rust netaddr testresources ansible
-          pip3 install ansible-compat==0.5.0
-          pip3 install pyopenssl yamllint pytest-testinfra flake8 ansible-lint molecule molecule-docker jmespath
-          pip3 install -U PyYAML
-      - name: execute molecule
+          sudo systemctl restart libvirtd
+      - name: chmod libvirt socket
         run: |
-          mv ../ansible-users ../tcharl.ansible_users
-          molecule test
-          mv ../tcharl.ansible_users ../ansible-users
+          sudo chmod o+rwx /var/run/libvirt/libvirt-sock
+      - name: vagrant install packages
+        run: |
+          vagrant plugin install vagrant-libvirt
+          ./configure
+      - name: pip install packages
+        run: |
+          pip3 install wheel setuptools tox
+#      - name: Test KVM conditions fails
+#        run: |
+#          sudo kvm-ok
+#      - name: tox test
+#        run: |
+# mv project
+#          tox -e test-exec
