@@ -1,6 +1,6 @@
 ---
 
-- name: ansible-users | ipa-users | manage ipa-users
+- name: Ipa-users | manage ipa-users
   freeipa.ansible_freeipa.ipauser:
     ipaadmin_password: "{{ company_realm_password }}"
     name: "{{ user.name | default('Technical account') }}"
@@ -10,8 +10,8 @@
     password: "{{ user.pwd }}"
     update_password: "{{ user.password_policy | default('on_create') }}"
 
-- name: ansible-users | ipa-users | manage ipa-groups
+- name: Ipa-users | manage ipa-groups
   ansible.builtin.include_tasks: ipa-user-groups.yml
-  loop: "{{ user.groups + [ user.group ] | default([]) }}"
+  loop: "{{ user.groups + [user.group] | default([]) }}"
   loop_control:
     loop_var: group

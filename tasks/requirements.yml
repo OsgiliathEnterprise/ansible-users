@@ -1,0 +1,17 @@
+---
+- name: Requirements | import core_dependencies role
+  ansible.builtin.import_role:
+    name: robertdebock.core_dependencies
+  become: True
+
+- name: Requirements | import bootstrap role
+  ansible.builtin.import_role:
+    name: robertdebock.bootstrap
+  become: True
+
+- name: Requirements | include secure host group if needed
+  ansible.builtin.import_role:
+    name: tcharl.ansible_securehost
+  when:
+    - ipa_users_user_list is defined or ipa_users_group_list is defined
+    - idm_group | default("") | string in group_names

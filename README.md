@@ -15,22 +15,7 @@ Run `./configure` in order to download the role dependency. Also of course insta
 Role Variables
 --------------
 
-Exactly the same as [robertdebock.users](https://galaxy.ansible.com/robertdebock/users): this role is forwarding the instruction.
-However, to avoid conflicts, the lists has been renamed:
-`local_users_user_list` and `local_users_group_list`
-
-In addition to that roles variables, we have added the notion of system users, ex:
-
-```yaml
-    local_systemusers_user_list:
-      - name: systemuser
-        group: cmordante
-        groups: wheel
-        create_home: yes # defaults to false
-        home: "/system" # defaults to "/" 
-```
-
-Also, this role manages the FreeIPA roles
+This role manages the FreeIPA roles
 ```yaml
     company_domain: "osgiliath.test" # That server's hostname will be  ipa."{{ company_domain }}"
     company_realm_password: '123ADMin'

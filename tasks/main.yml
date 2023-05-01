@@ -1,38 +1,11 @@
 ---
 # tasks file for ansible-users
 
-- name: ansible-users | prerequisites
-  ansible.builtin.import_tasks: deps.yml
+- name: Requirements
+  ansible.builtin.import_tasks: requirements.yml
   when: standalone_role
 
-- name: ansible-users | loop over users_group_list for local users
-  ansible.builtin.include_tasks: local-groups.yml
-  when:
-    - local_users_group_list is defined
-
-- name: ansible-users | loop over users_user_list for local users
-  ansible.builtin.include_tasks: local-users.yml
-  when:
-    - local_users_user_list is defined
-
-- name: ansible-users | loop over systemusers_user_list
-  ansible.builtin.include_tasks: system-users.yml
-  loop: "{{ local_systemusers_user_list }}"
-  loop_control:
-    label: "{{ user.name }}"
-    loop_var: user
-  when:
-    - local_systemusers_user_list is defined
-
-- name: ansible-users | include secure host group if needed
-  ansible.builtin.import_role:
-    name: tcharl.ansible_securehost
-  when:
-    - standalone_role
-    - ipa_users_user_list is defined or ipa_users_group_list is defined
-    - idm_group | default("") | string in group_names
-
-- name: ansible-users |  reboot ipa
+- name: Reboot ipa
   ansible.builtin.service:
     name: ipa
     state: restarted
@@ -40,7 +13,7 @@
   changed_when: false
   become: true
 
-- name: ansible-users | loop over ipa_users_group_list
+- name: Loop over ipa_users_group_list
   ansible.builtin.include_tasks: ipa-groups.yml
   loop: "{{ ipa_users_group_list }}"
   loop_control:
@@ -50,7 +23,7 @@
     - idm_group | default("") | string in group_names
     - ipa_users_group_list is defined
 
-- name: ansible-users | loop over ipa_users_user_list
+- name: Loop over ipa_users_user_list
   ansible.builtin.include_tasks: ipa-users.yml
   loop: "{{ ipa_users_user_list }}"
   loop_control:

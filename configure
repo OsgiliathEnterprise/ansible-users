@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-molecule dependency
-pip install jmespath
