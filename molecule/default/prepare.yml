@@ -2,6 +2,6 @@
 - name: Prepare
   hosts: all
   tasks:
-    - import_role:
-        name: tcharl.ansible_localuser
+    - include_role:
+        name: tcharl.ansible_users
         tasks_from: requirements.yml

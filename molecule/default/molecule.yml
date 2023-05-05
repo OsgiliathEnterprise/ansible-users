@@ -1,39 +1,37 @@
 ---
 dependency:
   name: galaxy
+  enabled: ${DEPENDENCY_ENABLED:-True}
   options:
-    role-file: requirements.yml
+    role-file: ${REQUIREMENTS_PATH:-requirements-standalone.yml}
     roles-path: ${MOLECULE_PROJECT_DIRECTORY}/../community
     requirements-file: requirements-collections.yml
     collections-path: ${MOLECULE_PROJECT_DIRECTORY}/../community-collections
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
+  name: podman
 platforms:
   - name: idm.osgiliath.test
-    box: fedora/38-cloud-base
-    provider_options:
-      cpus: 2
-      memory: 3096
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        ip: "192.168.50.5"
-        virtualbox__intnet: true
-      - network_name: forwarded_port
-        guest: 80
-        host: 8080
-      - network_name: forwarded_port
-        guest: 443
-        host: 443
-      - network_name: forwarded_port
-        guest: 53
-        host: 53
+    image: fedora:38
+    # image: ubi9/ubi-init:latest
+    dockerfile: ../common/Dockerfile.j2
+    # registry:
+    #   url: registry.access.redhat.com
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: True
+    command: "/sbin/init"
+    systemd: True
+    tmpfs:
+      - /run
+      - /tmp
+    dns_servers:
+      - 8.8.8.8
+    capabilities:
+      - SYS_ADMIN
+      - CAP_SYS_TIME
+    # pre_build_image: true
     groups:
       - ipaservers
-    provider_raw_config_args:
-      - "customize ['storagectl', :id, '--name', 'IDE', '--hostiocache', 'on']"
 provisioner:
   name: ansible
 verifier:
@@ -45,7 +43,6 @@ verifier:
 scenario:
   test_sequence:
     - dependency
-    - lint
     - cleanup
     - destroy
     - syntax

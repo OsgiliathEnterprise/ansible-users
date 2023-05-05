@@ -2,8 +2,11 @@
 # tasks file for ansible-users
 
 - name: Requirements
-  ansible.builtin.import_tasks: requirements.yml
-  when: standalone_role
+  ansible.builtin.include_tasks: requirements.yml
+  when:
+    - ipa_users_user_list is defined or ipa_users_group_list is defined
+    - idm_group | default("") | string in group_names
+    - standalone_role
 
 - name: Reboot ipa
   ansible.builtin.service:
