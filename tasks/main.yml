@@ -8,14 +8,6 @@
     - idm_group | default("") | string in group_names
     - standalone_role
 
-- name: Reboot ipa
-  ansible.builtin.service:
-    name: ipa
-    state: restarted
-  failed_when: false
-  changed_when: false
-  become: true
-
 - name: Loop over ipa_users_group_list
   ansible.builtin.include_tasks: ipa-groups.yml
   loop: "{{ ipa_users_group_list }}"

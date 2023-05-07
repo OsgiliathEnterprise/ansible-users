@@ -1,4 +1,4 @@
 ---
 - name: Requirements | include secure host group if needed
   ansible.builtin.import_role:
-    name: tcharl.ansible_securehost
+    name: tcharl.freeipa_server

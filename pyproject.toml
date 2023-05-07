@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tcharl-ansible-users"
+name = "tcharl.ansible_users"
 version = "0.1.0"
 description = "Freeipa users and group management"
 authors = ["Charlie Mordant <cmordant1@gmail.com>"]
