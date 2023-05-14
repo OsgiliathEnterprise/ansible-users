@@ -2,3 +2,6 @@
 - name: Requirements | include secure host group if needed
   ansible.builtin.import_role:
     name: tcharl.freeipa_server
+  when:
+    - idm_group | default("") | string in group_names
+
