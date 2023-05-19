@@ -1,6 +1,5 @@
 .idea
-**/__pychache__
+**/__pycache__
 .cache
 dist
 .tox/
-molecule/default/tests/__pycache__
