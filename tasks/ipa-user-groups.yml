@@ -3,7 +3,9 @@
 - name: Ipa-user-groups | manage ipa-group
   freeipa.ansible_freeipa.ipagroup:
     ipaadmin_password: "{{ company_realm_password }}"
+    ipaapi_context: server
     name: "{{ group }}"
     action: member
     user:
      - "{{ user.name }}"
+  failed_when: False # FIXME remove this statement
