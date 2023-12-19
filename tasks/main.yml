@@ -1,6 +1,9 @@
 ---
 # tasks file for ansible-users
 
+- name: Prereq
+  ansible.builtin.include_tasks: prereq.yml
+
 - name: Requirements
   ansible.builtin.include_tasks: requirements.yml
   when:

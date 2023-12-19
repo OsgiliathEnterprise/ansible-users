@@ -1,0 +1,11 @@
+---
+
+- name: Prereq | install needed package
+  ansible.builtin.package:
+    name: python3-pip
+  become: True
+
+- name: Prereq | install needed package
+  ansible.builtin.pip:
+    name: ipapython
+    version: ipapython_version | default(Omit)
