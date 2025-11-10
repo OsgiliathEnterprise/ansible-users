@@ -1,5 +1,7 @@
 exclude_paths:
  - .cache/
+ - .github/
+ - .poetry/
  - .tox/
  - tests/
  - meta/

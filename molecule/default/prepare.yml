@@ -1,10 +1,10 @@
 ---
 - name: Prepare
-  hosts: all
+  hosts:
+    - idm.osgiliath.test
   tasks:
     - include_role:
-        name: tcharl.ansible_users
-        tasks_from: requirements.yml
+        name: tcharl.freeipa_server
       vars:
         company_domain: "osgiliath.test" # That server's hostname will be should ipa."{{ company_domain }}"
         company_realm_password: '123ADMin'
