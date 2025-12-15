@@ -32,9 +32,9 @@ platforms:
       - ipaservers
 provisioner:
   name: ansible
-#  config_options:
-#    defaults:
-#      remote_tmp: /tmp
+  config_options:
+    defaults:
+      remote_tmp: /tmp
 verifier:
   name: testinfra
   env:
