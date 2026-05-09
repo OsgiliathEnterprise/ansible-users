@@ -1,7 +1,7 @@
 ---
 - name: Prepare
   hosts:
-    - idm.osgiliath.test
+    - users.osgiliath.test
   tasks:
     - include_role:
         name: tcharl.freeipa_server
