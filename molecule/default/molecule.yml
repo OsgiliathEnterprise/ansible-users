@@ -5,6 +5,8 @@ dependency:
   options:
     role-file: ${REQUIREMENTS_PATH:-requirements-standalone.yml}
     requirements-file: requirements-collections.yml
+    roles-path: ${MOLECULE_PROJECT_DIRECTORY}/../community
+    collections-path: ${MOLECULE_PROJECT_DIRECTORY}/../community-collections
 driver:
   name: podman
 platforms:
