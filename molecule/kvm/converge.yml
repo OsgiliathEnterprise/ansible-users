@@ -1,7 +1,6 @@
 ---
-- name: Prepare
-  hosts:
-    - users.osgiliath.test
+- name: Converge
+  hosts: all
   vars:
     standalone_role: False
     company_domain: "osgiliath.test" # That server's hostname will be should ipa."{{ company_domain }}"
