@@ -11,7 +11,8 @@ driver:
     name: virtualbox
 platforms:
   - name: users.osgiliath.test
-    box: ${TESTBOX:-generic/fedora39}
+    box: ${TESTBOX:-fedora-cloud-44-virtualbox}
+    box_url: ${TESTBOX_URL:-https://download.fedoraproject.org/pub/fedora/linux/releases/44/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-VirtualBox-44-1.7.x86_64.vagrant.virtualbox.box}
     # image_url: ${TESTBOX:-https://download.fedoraproject.org/pub/fedora/linux/releases/44/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-VirtualBox-44-1.7.x86_64.vagrant.virtualbox.box}
     provider_options:
       cpus: 2
@@ -30,13 +31,14 @@ provisioner:
   name: ansible
   env:
     ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../community-collections:${HOME}/.ansible/collections:/usr/share/ansible/collections"
-    ANSIBLE_REMOTE_TMP: /var/tmp/ansible-remote
-    ANSIBLE_ASYNC_DIR: "/tmp/.ansible_async"
   options:
     vvv: True
   config_options:
     defaults:
-      remote_tmp: /var/tmp/ansible-remote
+      remote_tmp: /tmp
+  ssh_connection:
+    pipelining: true
+    ssh_args: -4 -o ControlMaster=auto -o ControlPersist=6000s
 verifier:
   name: testinfra
   env:
